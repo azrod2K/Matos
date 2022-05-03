@@ -12,8 +12,6 @@
 </head>
 
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <img src="./assets/img/logo.jpg" width="30" height="30" alt="">&nbsp;
         <a class="navbar-brand" href="index.php">Matos</a>
@@ -23,13 +21,18 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Accueil</a>
+                    <a class="nav-link" href="#">Accueil</a>
                 </li>
             </ul>
             <span class="navbar-text">
                 <?php
                 if ($_SESSION['userConnected']['online']) {
                 ?>
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">catégorie</a>
+                </li>
+                </ul>
                     <li class="nav-item dropdown" style=" list-style-type: none;">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </a>
