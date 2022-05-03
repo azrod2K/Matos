@@ -1,0 +1,31 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #3e3f3a;
+    color: white;
+    text-align: center;
+  }
+  
+  .lienCfpt:link {
+    color: red;
+  }
+  
+  .lienCfpt:visited {
+    color: red;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  .lienCfpt:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  .lienCfpt:active {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+  }
