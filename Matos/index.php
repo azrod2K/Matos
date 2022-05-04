@@ -30,6 +30,9 @@ switch ($uc) {
     case 'login':
         include "controllers/login_controller.php";
         break;
+    case 'categorie':
+        include "controllers/categorie_controller.php";
+        break;
 }
 include "vues/footer.php";
 

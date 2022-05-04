@@ -13,31 +13,36 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
         <img src="./assets/img/logo.jpg" width="30" height="30" alt="">&nbsp;
-        <a class="navbar-brand" href="index.php">Matos</a>
+        <a class="navbar-brand" href="index.php?uc=login&action=showProfil">Matos</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Accueil</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.php?uc=categorie&action=show">Catégorie</a>
                 </li>
             </ul>
             <span class="navbar-text">
                 <?php
                 if ($_SESSION['userConnected']['online']) {
                 ?>
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">catégorie</a>
-                </li>
-                </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">catégorie</a>
+                        </li>
+                    </ul>
                     <li class="nav-item dropdown" style=" list-style-type: none;">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="index.php?uc=login&action=showProfil">Profile</a>
                             <a class="dropdown-item" href="index.php?uc=login&action=deconnecter">Se deconnecter</a>
                         </div>
                     </li>
@@ -47,5 +52,6 @@
                 }
                 ?>
             </span>
+        </div>
         </div>
     </nav>

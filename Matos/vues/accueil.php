@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <h5>macbook pro 15pouce</h5>
                         <p class="card-text">ordinateur portable très puissant</p>
-                        <a class="btn btn-primary" href="index.php?uc=accueil&action=selectMap&idMap=<?= $map->getId() ?>">Plus d'infos</a>
+                        <a class="btn btn-primary">Louer</a>
                     </div>
                 </div>
             </div>

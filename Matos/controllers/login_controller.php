@@ -7,12 +7,12 @@ switch ($action) {
         include 'vues/login.php';
         break;
 
-        // affichage du formulaire de register
+    // affichage du formulaire de register
     case 'showRegister':
         include 'vues/register.php';
         break;
 
-        // connexion de l'utilisateur
+    // connexion de l'utilisateur
     case 'validateLogin':
         $mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
@@ -21,26 +21,26 @@ switch ($action) {
             // si les champs sont remplis
             $user = new utilisateurs();
             $user->setEmail($mail)
-            ->setMotDePasse($password);
+                ->setMotDePasse($password);
 
-            $reqResult = utilisateurs::VerifierConnexion($user);
-            if($reqResult != false){
-                if($reqResult->getEmail() == $mail && $reqResult->getMotDePasse() == utilisateurs::Crypter($password)){
+            $reqResult = utilisateurs::CheckConnected($user);
+            if ($reqResult != false) {
+                if ($reqResult->getEmail() == $mail && $reqResult->getMotDePasse() == utilisateurs::Crypter($password)) {
                     $_SESSION['userConnected'] = [
-                        "username" => $reqResult->getTxt_Mail(),
+                        "username" => $reqResult->getEmail(),
                         "online" => true,
-                        "idUser" => $reqResult->getId(),
-                        "isAdmin" => $reqResult->getIsAdmin()
+                        "idUser" => $reqResult->getIdUtilisateur(),
+                        "isAdmin" => $reqResult->getStatut()
                     ];
                     header('Location: index.php');
-                }else{
+                } else {
                     $_SESSION['alertMessage'] = [
                         "type" => "danger",
                         "message" => "Email ou mot de passe incorrect"
                     ];
                     header("Location: index.php?uc=login&action=show");
                 }
-            }else{
+            } else {
                 $_SESSION['alertMessage'] = [
                     "type" => "danger",
                     "message" => "Cet email n'existe pas"
@@ -56,18 +56,21 @@ switch ($action) {
         }
         break;
 
-        case 'validateRegister':
-            break;
+    case 'validateRegister':
+        break;
 
-        // déconnexion de l'utilisateur
-        case 'deconnecter':
-            session_destroy();
-            session_unset();
-            header('Location: index.php');
-            break;
+    case 'showProfil':
+        include "vues/profil.php";
+        break;
 
-            default :
-            header('Location: index.php?uc=login&action=show'); 
-            break;
+    // déconnexion de l'utilisateur
+    case 'deconnecter':
+        session_destroy();
+        session_unset();
+        header('Location: index.php');
+        break;
 
+    default:
+        header('Location: index.php?uc=login&action=show');
+        break;
 }

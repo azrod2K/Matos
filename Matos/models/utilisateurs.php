@@ -153,17 +153,18 @@ class utilisateurs{
     public static function Crypter($mdpClair){
         return md5($mdpClair);
     }
-        // verrifier les informations de connection
-        public static function VerifierConnexion(utilisateurs $user)
-        {
-            $email = $user->getEMail();
     
-            $req = MonPdo::getInstance()->prepare("SELECT email,MotDePasse FROM utilisateur WHERE Txt_Mail = :email;");
-            $req->bindParam(":email", $email);
-            $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'User'); // mettre le nom de la classe
-            $req->execute();
-            $result = $req->fetch();
-            return $result;
-        }
+    // verrifier les informations de connection
+    public static function CheckConnected(utilisateurs $user)
+    {
+        $email = $user->getEMail();
+    
+        $req = MonPdo::getInstance()->prepare("SELECT email,MotDePasse FROM utilisateur WHERE email = :email;");
+        $req->bindParam(":email", $email);
+        $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs'); // mettre le nom de la classe
+        $req->execute();
+        $result = $req->fetch();
+        return $result;
+    }
 }
 ?>
