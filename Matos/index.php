@@ -2,10 +2,10 @@
 session_start();
 if (!isset($_SESSION['userConnected'])) {
     $_SESSION['userConnected'] = [
-        "username" => "",
+        "email" => "",
         "online" => false,
-        "idUser" => null,
-        "isAdmin" => null
+        "idutilisateur" => null,
+        "statut" => null
     ];
 
     $_SESSION['alertMessage'] = [
@@ -13,7 +13,7 @@ if (!isset($_SESSION['userConnected'])) {
         "message" => null
     ];
 }
-
+ini_set('display_errors', 1);
 require("models/MonPdo.php");
 require("models/images.php");
 require("models/utilisateurs.php");
@@ -35,5 +35,5 @@ switch ($uc) {
         break;
 }
 include "vues/footer.php";
-
+error_reporting(E_ALL);
 ?>

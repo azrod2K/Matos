@@ -1,7 +1,24 @@
  <!-- la form du resgiter -->
  <div class="container">
  <?php
-        ?>
+ 
+ if ($_SESSION['alertMessage']['type'] != null) {
+ ?>
+    <div class="alert alert-<?= $_SESSION['alertMessage']['type'] ?> alert-dismissible fade show" role="alert">
+        <?= $_SESSION['alertMessage']['message'] ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+<?php
+     $_SESSION['alertMessage'] = [
+         "type" => null,
+         "message" => null
+     ];
+ }
+ ?>
         <div class="row">
             <div class=col-lg-3></div>
             <div class=col-lg-6>
@@ -20,8 +37,16 @@
                             </div>
                         </div>
                         <br>
-                        <label>E-mail :</label>
-                        <input type="email" name="email" placeholder="Enter your email .." class="form-control">
+                        <div class="row" >
+                            <div class="col-lg-6">
+                                <label>E-mail :</label>
+                                <input type="text" name="email" placeholder="Enter your email .." class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Pseudo :</label>
+                                <input type="text" name="pseudo" placeholder="Enter your pseudo .." class="form-control">
+                            </div>
+                        </div>
                         <br>
                         <label>Numéro de téléphone :</label>
                         <input type="text" name="noTel" placeholder="enter your numeber .." class="form-control">
@@ -35,7 +60,7 @@
                         <br>
                         <a href="index.php?uc=login&action=show">Déjà membre ? Connectez-vous ici</a>
                         <br>
-                        <input type="submit" name="valider" value="Register"class="btn btn-success btn-block btn-lg">
+                        <input type="submit" name="valider" value="Register" class="btn btn-success btn-block btn-lg">
                     </form>
                 </div>
             </div>
