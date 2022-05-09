@@ -150,14 +150,33 @@ class materiels
     }
 
     //fonction qui permet de selection tout le matériel disponible
-    public static function GetAllMateriel(): array
+    public static function GetAllMateriel()
     {
-        $req = MonPdo::getInstance()->prepare("SELECT * FROM materiels WHERE actif == 0");
+        $req = MonPdo::getInstance()->prepare("SELECT * FROM materiels WHERE actif = 0 and isDelete = 0");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $req->execute();
         $returnSQL = $req->fetchAll();
+?>
 
-        return $returnSQL;
+        <div class="container">
+            <div class="row" style="flex-wrap: wrap;  justify-content: center;">
+                <?php
+                foreach ($returnSQL as $materiel) {
+                ?>
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="assets/img/logo.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5><?= $materiel->getMarque() ?></h5>
+                            <p class="card-text"><?= $materiel->getDescription() ?></p>
+                            <a class="btn btn-primary">Louer</a>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+<?php
     }
 
     //fonction qui permet d'ajouter du matériel
@@ -171,7 +190,7 @@ class materiels
         $isDelete = 0;
 
         $sql = MonPdo::getInstance()->prepare('INSERT INTO materiels(actif, categorie, dateEntreeStock, description, marque, isDelete) VALUES(:Actif, :Categorie, :DateEntreeStock, :Description, :Marque, :IsDelete)');
-        $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiel');
+        $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $sql->bindParam(':Actif', $actif);
         $sql->bindParam(':DCategorie', $categorie);
         $sql->bindParam(':DateEntreeStock', $dateEntreeStock);
@@ -186,17 +205,26 @@ class materiels
     {
         $req = MonPdo::getInstance()->prepare('UPDATE materiels SET isDelete = :deleted WHERE idMateriel = :IdMateriel');
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
-        $req->bindParam(':deleted', $action);// 0 = visible / 1 = pas visible
+        $req->bindParam(':deleted', $action); // 0 = visible / 1 = pas visible
         $req->bindParam(':IdMateriel', $idMateriel);
         $req->execute();
     }
 
     //fonction qui permet mettre disponible ou pas 
-    public static function setAvailability($idMateriel,$action){
+    public static function setAvailability($idMateriel, $action)
+    {
         $req = MonPdo::getInstance()->prepare('UPDATE materiels SET actif = :Actif WHERE idMateriel = :IdMateriel');
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
-        $req->bindParam(':Actif', $action);//0 = disponible / 1 = pas disponible
+        $req->bindParam(':Actif', $action); //0 = disponible / 1 = pas disponible
         $req->bindParam(':IdMateriel', $idMateriel);
         $req->execute();
+    }
+    public static function GetAllCategorie(): array
+    {
+        $req = MonPdo::getInstance()->prepare('SELECT DISTINCT categorie, COUNT(CASE actif WHEN 0 THEN 0 ELSE NULL END) Disponible FROM materiels WHERE isDelete = 0 GROUP BY idMateriel');
+        $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
+        $req->execute();
+        $returnSQL = $req->fetchAll();
+        return $returnSQL;
     }
 }

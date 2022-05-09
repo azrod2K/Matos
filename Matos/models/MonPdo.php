@@ -7,7 +7,7 @@
 class MonPdo
 {
 private static $serveur = 'mysql:host=127.0.0.1';
-private static $bdd = 'dbname=Matos';
+private static $bdd = 'dbname=MatosV2';
 private static $user = 'adminMatos';
 private static $mdp = 'Supermatos';
 private static $monPdo;

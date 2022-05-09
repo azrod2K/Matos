@@ -7,38 +7,34 @@
       <div class="col-md-3">
         <div class="text-center">
           <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
-          <h6>Upload a different photo...</h6>
-          
-          <input type="file" class="form-control">
         </div>
       </div>
       <!-- edit form column -->
       <div class="col-md-9 personal-info">
         <h3>information personnelle</h3>
-        
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label class="col-lg-3 control-label">Téléphone</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="+41 79 000 00 00">
+              <input class="form-control" type="text" value="<?= $_SESSION['userConnected']['noTel'] ?>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Pseudo</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="">
+              <input class="form-control" type="text" value="<?= $_SESSION['userConnected']['pseudo'] ?>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Current Mot de passe</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="">
+              <input class="form-control" type="password" value="">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Nouveau mot de passe</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="">
+              <input class="form-control" type="password" value="">
             </div>
           </div>
           <div class="form-group">

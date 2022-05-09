@@ -184,10 +184,9 @@ class utilisateurs
     public static function CheckConnected(utilisateurs $user)
     {
         $email = $user->getEMail();
-
-        $req = MonPdo::getInstance()->prepare("SELECT email,MotDePasse FROM utilisateurs WHERE email = :email;");
-        $req->bindParam(":email", $email);
+        $req = MonPdo::getInstance()->prepare("SELECT * FROM utilisateurs WHERE email = :email;");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs'); // mettre le nom de la classe
+        $req->bindParam(":email", $email);
         $req->execute();
         $result = $req->fetch();
         return $result;
@@ -199,14 +198,16 @@ class utilisateurs
         $nom = $user->getNom();
         $prenom = $user->getPrenom();
         $noTel = $user->getNoTel();
+        $pseudo=$user->getPseudo();
         $motDePasse = utilisateurs::Crypter($user->getMotDePasse());
         $email = $user->getEmail();
         $statut=1;
-        $req = MonPdo::getInstance()->prepare("INSERT INTO utilisateurs(nom,prenom,noTel,motDePasse,email,statut) VALUES (:Nom,:Prenom,:NoTel,:MotDePasse,:Email,:Statut)");
+        $req = MonPdo::getInstance()->prepare("INSERT INTO utilisateurs(nom,prenom,noTel,pseudo,motDePasse,email,statut) VALUES (:Nom,:Prenom,:NoTel,:Pseudo,:MotDePasse,:Email,:Statut)");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $req->bindParam(':Nom', $nom);
         $req->bindParam(':Prenom',$prenom);
         $req->bindParam(':NoTel',$noTel);
+        $req->bindParam(':Pseudo',$pseudo);
         $req->bindParam(':MotDePasse',$motDePasse);
         $req->bindParam(':Email',$email);
         $req->bindParam(':Statut',$statut);

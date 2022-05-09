@@ -29,3 +29,18 @@
     background-color: transparent;
     text-decoration: underline;
   }
+
+  .categorie-name {
+    margin: auto;
+    font-size: 200%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .icon-img {
+    margin: auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 10%;
+  }
+

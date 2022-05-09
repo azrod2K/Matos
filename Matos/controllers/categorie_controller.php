@@ -5,9 +5,8 @@ switch ($action) {
     case 'show':
         include "vues/categorie.php";
         break;
-    
-    default:
-        # code...
+    case 'liste':
+        
         break;
 }
 ?>

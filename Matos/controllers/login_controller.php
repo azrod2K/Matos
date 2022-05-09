@@ -30,9 +30,12 @@ switch ($action) {
                         "email" => $reqResult->getEmail(),
                         "online" => true,
                         "idUtilisateur" => $reqResult->getIdUtilisateur(),
-                        "statut" => $reqResult->getStatut()
+                        "statut" => $reqResult->getStatut(),
+                        "noTel" => $reqResult->getNoTel(),
+                        "pseudo" => $reqResult->getPseudo(),
+                        "motDePasse" => $reqResult->getMotDePasse()
                     ];
-                    header('Location: index.php?uc=accueil');
+                    header('Location: index.php?uc=accueil&action=show');
                 } else {
                     $_SESSION['alertMessage'] = [
                         "type" => "danger",
@@ -62,6 +65,7 @@ switch ($action) {
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $noTel = filter_input(INPUT_POST, 'noTel', FILTER_SANITIZE_NUMBER_INT);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING);
 
         //si les champs ne sont pas vides
         if ($firstName != "" && $lastName != "" && $email != "" && $noTel != "" && $password != "") {
@@ -70,6 +74,7 @@ switch ($action) {
                 $user->setNom($lastName)
                     ->setPrenom($firstName)
                     ->setEmail($email)
+                    ->setPseudo($pseudo)
                     ->setNoTel($noTel)
                     ->setMotDePasse($password);
                 utilisateurs::AddUser($user);
@@ -95,6 +100,7 @@ switch ($action) {
         break;
 
     case 'showProfil':
+        
         include "vues/profil.php";
         break;
 
