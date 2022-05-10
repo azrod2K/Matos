@@ -152,7 +152,7 @@ class materiels
     //fonction qui permet de selection tout le matériel disponible
     public static function GetAllMateriel()
     {
-        $req = MonPdo::getInstance()->prepare("SELECT * FROM materiels WHERE actif = 0 and isDelete = 0");
+        $req = MonPdo::getInstance()->prepare("SELECT marque,description,nomImage FROM materiels,images WHERE images.idMateriel = materiels.idMateriel AND actif = 1 AND isDelete = 1");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $req->execute();
         $returnSQL = $req->fetchAll();
@@ -164,7 +164,7 @@ class materiels
                 foreach ($returnSQL as $materiel) {
                 ?>
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="assets/img/logo.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="assets/img/materiel/<?=$materiel->nomImage?>" alt="Card image cap">
                         <div class="card-body">
                             <h5><?= $materiel->getMarque() ?></h5>
                             <p class="card-text"><?= $materiel->getDescription() ?></p>
@@ -182,22 +182,24 @@ class materiels
     //fonction qui permet d'ajouter du matériel
     public static function AddMaterial(materiels $materiels)
     {
-        $actif = 0;
+        $actif = 1;
         $categorie = $materiels->getCategorie();
         $dateEntreeStock = date("Y-m-d H:i:s");
         $description = $materiels->getDescription();
         $marque = $materiels->getMarque();
-        $isDelete = 0;
+        $isDelete = 1;
 
         $sql = MonPdo::getInstance()->prepare('INSERT INTO materiels(actif, categorie, dateEntreeStock, description, marque, isDelete) VALUES(:Actif, :Categorie, :DateEntreeStock, :Description, :Marque, :IsDelete)');
         $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $sql->bindParam(':Actif', $actif);
-        $sql->bindParam(':DCategorie', $categorie);
+        $sql->bindParam(':Categorie', $categorie);
         $sql->bindParam(':DateEntreeStock', $dateEntreeStock);
         $sql->bindParam(':Description', $description);
         $sql->bindParam(':Marque', $marque);
         $sql->bindParam(':IsDelete', $isDelete);
         $sql->execute();
+
+        return MonPdo::getInstance()->lastInsertId();
     }
 
     //fonction qui delete le matériel(en invisible pour les utilisateurs)

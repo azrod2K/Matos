@@ -213,6 +213,10 @@ class utilisateurs
         $req->bindParam(':Statut',$statut);
         $req->execute();
     }
+    public static function Update(){
+
+    }
+    
     public static function IsEmailExisting($email){
         $req=MonPdo::getInstance()->prepare("SELECT idUtilisateur, email FROM utilisateurs");
         $req->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,'utilisateurs');

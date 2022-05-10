@@ -100,7 +100,6 @@ switch ($action) {
         break;
 
     case 'showProfil':
-        
         include "vues/profil.php";
         break;
 
@@ -108,7 +107,19 @@ switch ($action) {
     case 'deconnecter':
         session_destroy();
         session_unset();
-        header('Location: index.php');
+        header('Location: index.php?uc=accueil&action=show');
+        break;
+
+    case 'update':
+        $pseudo = filter_input(INPUT_POST,'pseudo',FILTER_SANITIZE_STRING);
+        $noTel = filter_input(INPUT_POST,'notel',FILTER_SANITIZE_NUMBER_INT);
+        $password = filter_input(INPUT_POST,'mdp',FILTER_SANITIZE_STRING);
+
+        $user=new utilisateurs();
+        $user->setPseudo($pseudo)
+        ->setNoTel($noTel)
+        ->setMotDePasse($password);
+        utilisateurs::Update($user);
         break;
 
     default:

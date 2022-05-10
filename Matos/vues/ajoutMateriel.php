@@ -1,13 +1,25 @@
  <!-- la form d'ajout  -->
  <div class="container">
      <?php
+        if ($_SESSION['alertMessage']['type'] != null) {
+        ?>
+         <div class="alert alert-<?= $_SESSION['alertMessage']['type'] ?> alert-dismissible fade show" role="alert">
+             <?= $_SESSION['alertMessage']['message'] ?>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+     <?php
+            $_SESSION['alertMessage'] = [
+                "type" => null,
+                "message" => null
+            ];
+        }
         ?>
      <div class="row">
          <div class=col-lg-3></div>
          <div class=col-lg-6>
              <div id="ui">
                  <h1 class="text-center">ajout de matériel</h1>
-                 <form method="POST" action="index.php?uc=materiel&action=validateAdd" class="form-group text-center">
+                 <form method="POST" action="index.php?uc=materiel&action=validateAdd" class="form-group text-center" enctype="multipart/form-data">
                      <div class="row">
                          <div class="col-lg-6">
                              <label>marque :</label>
@@ -26,7 +38,7 @@
                      </div>
                      <br>
                      <label>images du matériel :</label>
-                     <input class="form-control" type="file" id="image" accept="image/*" multiple name="images[]">
+                     <input class="form-control" type="file" id="image" accept="image/*" name="image">
                      <br>
                      <label>description :</label>
                      <input type="text" name="description" placeholder="description" class="form-control">

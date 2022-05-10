@@ -5,11 +5,9 @@
  if ($_SESSION['alertMessage']['type'] != null) {
  ?>
     <div class="alert alert-<?= $_SESSION['alertMessage']['type'] ?> alert-dismissible fade show" role="alert">
-        <?= $_SESSION['alertMessage']['message'] ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+             <?= $_SESSION['alertMessage']['message'] ?>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
 
 
 <?php
