@@ -93,10 +93,10 @@ class utilisateurs
 
         return $this;
     }
-    
+
     /**
      * Get the value of pseudo
-     */ 
+     */
     public function getPseudo()
     {
         return $this->pseudo;
@@ -106,7 +106,7 @@ class utilisateurs
      * Set the value of pseudo
      *
      * @return  self
-     */ 
+     */
     public function setPseudo($pseudo)
     {
         $this->pseudo = $pseudo;
@@ -198,37 +198,82 @@ class utilisateurs
         $nom = $user->getNom();
         $prenom = $user->getPrenom();
         $noTel = $user->getNoTel();
-        $pseudo=$user->getPseudo();
+        $pseudo = $user->getPseudo();
         $motDePasse = utilisateurs::Crypter($user->getMotDePasse());
         $email = $user->getEmail();
-        $statut=1;
+        $statut = 1;
         $req = MonPdo::getInstance()->prepare("INSERT INTO utilisateurs(nom,prenom,noTel,pseudo,motDePasse,email,statut) VALUES (:Nom,:Prenom,:NoTel,:Pseudo,:MotDePasse,:Email,:Statut)");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $req->bindParam(':Nom', $nom);
-        $req->bindParam(':Prenom',$prenom);
-        $req->bindParam(':NoTel',$noTel);
-        $req->bindParam(':Pseudo',$pseudo);
-        $req->bindParam(':MotDePasse',$motDePasse);
-        $req->bindParam(':Email',$email);
-        $req->bindParam(':Statut',$statut);
+        $req->bindParam(':Prenom', $prenom);
+        $req->bindParam(':NoTel', $noTel);
+        $req->bindParam(':Pseudo', $pseudo);
+        $req->bindParam(':MotDePasse', $motDePasse);
+        $req->bindParam(':Email', $email);
+        $req->bindParam(':Statut', $statut);
         $req->execute();
     }
-    public static function Update(){
+    public static function Update(utilisateurs $user)
+    {
+        $pseudo = $user->getPseudo();
+        $noTel = $user->getNoTel();
+        $motDePasse = utilisateurs::Crypter($user->getMotDePasse());
+        $idUtilisateur = $user->getIdUtilisateur();
+        $sql = MonPdo::getInstance()->prepare("UPDATE utilisateurs SET pseudo = :pseudo, noTel = :notel, motDePasse = :mdp where idUtilisateur = :id");
+        $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
+        $sql->bindParam(":pseudo", $pseudo);
+        $sql->bindParam(":noTel", $noTel);
+        $sql->bindParam(":mdp", $motDePasse);
+        $sql->bindParam(":id", $idUtilisateur);
+        $sql->execute();
+    }
 
-    }
-    
-    public static function IsEmailExisting($email){
-        $req=MonPdo::getInstance()->prepare("SELECT idUtilisateur, email FROM utilisateurs");
-        $req->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,'utilisateurs');
+    public static function IsEmailExisting($email)
+    {
+        $req = MonPdo::getInstance()->prepare("SELECT idUtilisateur, email FROM utilisateurs");
+        $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $req->execute();
-        $result=$req->fetchAll();
+        $result = $req->fetchAll();
 
         foreach ($result as $r) {
-            if ($r->getEmail()==$email) {
+            if ($r->getEmail() == $email) {
                 return true;
             }
         }
         return false;
     }
+    //Affichage de tous les utilisateurs
+    public static function getAllUser(){
+        $res=MonPdo::getInstance()->prepare("SELECT * FROM utilisateurs ORDER BY statut DESC");
+        $res->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'utilisateurs');
+        $res->execute();
 
+        $result=$res->fetchAll();
+        echo "<div class='table-responsive'>";
+        echo "<table class='table table-info table-responsive' >";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th scope='col'>E-mail</th>";
+        echo "<th scope='col'>Pseudo</th>";
+        echo "<th scope='col'>Numéro de téléphone</th>";
+        echo "<th scope='col'>Statut</th>";
+        echo "<th></th>";
+        echo "</tr>";
+        foreach ($result as $value) {
+            echo "<tr>";
+            echo "<td>".$value->getEmail()."</td>";
+            echo "<td>".$value->getPseudo()."</td>";
+            echo "<td>".$value->getNoTel()."</td>";
+            if ($value->getStatut() == 1) {
+                echo "<td>🙍‍♂️ enseigants</td>";
+            }else if($value->getStatut() == 2){
+                echo"<td>⭐ admin</td>";
+            }
+            echo "<td style='text-align: center;'><a href='index.php?uc=admin&action=delete&idUtilisateur=".$value->getIdUtilisateur()."' style='border: 1px solid black;font-size: 100%;' class='btn btn-outline-danger''>Supprimer</a></td>";
+            echo "</tr>";
+        }
+        echo "</thead>";
+        echo "</table>";
+        echo"</div>";
+    }
 }

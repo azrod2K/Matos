@@ -39,7 +39,9 @@ switch ($uc) {
     case 'materiel':
         include "controllers/materiel_controller.php";
         break;
+    case 'admin':
+        include "controllers/admin_controller.php";
+        break;
 }
 include "vues/footer.php";
 error_reporting(E_ALL);
-?>

@@ -111,15 +111,24 @@ switch ($action) {
         break;
 
     case 'update':
-        $pseudo = filter_input(INPUT_POST,'pseudo',FILTER_SANITIZE_STRING);
-        $noTel = filter_input(INPUT_POST,'notel',FILTER_SANITIZE_NUMBER_INT);
-        $password = filter_input(INPUT_POST,'mdp',FILTER_SANITIZE_STRING);
-
-        $user=new utilisateurs();
-        $user->setPseudo($pseudo)
-        ->setNoTel($noTel)
-        ->setMotDePasse($password);
-        utilisateurs::Update($user);
+        $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING);
+        $noTel = filter_input(INPUT_POST, 'notel', FILTER_SANITIZE_NUMBER_INT);
+        $password = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
+        if ($password != "") {
+            $user = new utilisateurs();
+            $user->setPseudo($pseudo)
+                ->setNoTel($noTel)
+                ->setMotDePasse($password)
+                ->setIdUtilisateur($_SESSION['userConnected']['idUtilisateur']);
+            utilisateurs::Update($user);
+        } else {
+            $user = new utilisateurs();
+            $user->setPseudo($pseudo)
+                ->setNoTel($noTel)
+                ->setMotDePasse($_SESSION['userConnected']['motDePasse'])
+                ->setIdUtilisateur($_SESSION['userConnected']['idUtilisateur']);
+            utilisateurs::Update($user);
+        }
         break;
 
     default:

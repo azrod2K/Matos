@@ -1,7 +1,7 @@
 <div class="container bootstrap snippets bootdey">
     <h1 class="text-primary">Editer le Profil</h1>
       <hr>
-
+      
       <div class="row">
       <!-- left column -->
       <div class="col-md-3">

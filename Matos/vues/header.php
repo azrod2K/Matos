@@ -37,8 +37,8 @@
             gérer
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-            <li><a class="dropdown-item" href="index.php?uc=login&action=showAllUser">list enseignant</a></li>
-            <li><a class="dropdown-item" href="index.php?uc=materiel&action=showAllPret">list prêt</a></li>
+            <li><a class="dropdown-item" href="index.php?uc=admin&action=showAllUser">list enseignant</a></li>
+            <li><a class="dropdown-item" href="index.php?uc=admin&action=showAllPret">list prêt</a></li>
           </ul>
         </li>
         <?php

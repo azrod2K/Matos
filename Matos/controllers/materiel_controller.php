@@ -38,11 +38,6 @@ switch ($action) {
 
             $dirFile = "./assets/img/materiel/";
             $randomName = uniqid() . "." . $image['name'];
-            // echo '<pre>';
-            // var_dump($image);
-            // echo'</pre>';
-            // var_dump($randomName, $dirFile);
-            // die();
             if (move_uploaded_file($image['tmp_name'], $dirFile . $randomName)) {
                 $images = new images();
                 $images->setLienImage($dirFile)
@@ -75,8 +70,5 @@ switch ($action) {
             ];
             header("Location: index.php?uc=materiel&action=ajout");
         }
-
-
-        echo uniqid();
         break;
 }

@@ -229,4 +229,14 @@ class materiels
         $returnSQL = $req->fetchAll();
         return $returnSQL;
     }
+
+    public static function getMaterielById($idMateriel){
+        $res=MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels,images WHERE images.idMateriel = materiels.idMateriel AND idMateriel = :id');
+        $res->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,'materiels');
+        $res->bindParam(':id',$idMateriel);
+        $res->execute();
+        $result=$res->fetch();
+
+        return $result;
+    }
 }
