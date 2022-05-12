@@ -28,7 +28,7 @@ include "vues/header.php";
 $uc = filter_input(INPUT_GET, 'uc') == null ? "accueil" : filter_input(INPUT_GET, 'uc'); // affiche la page accueil par défaut
 switch ($uc) {
     case 'accueil':
-      include "controllers/materiel_controller.php";
+        include "controllers/materiel_controller.php";
         break;
     case 'login':
         include "controllers/login_controller.php";
@@ -42,6 +42,10 @@ switch ($uc) {
     case 'admin':
         include "controllers/admin_controller.php";
         break;
+    case 'calendriers';
+    require_once("function/calendrier.php");
+    include "vues/calendar.php";
+    break;
 }
 include "vues/footer.php";
 error_reporting(E_ALL);

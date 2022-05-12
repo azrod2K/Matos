@@ -12,6 +12,7 @@ class utilisateurs
     private $motDePasse;
     private $email;
     private $statut;
+    private $isDeleted;
 
 
     /**
@@ -173,7 +174,25 @@ class utilisateurs
 
         return $this;
     }
+    /**
+     * Get the value of isDeleted
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
 
+    /**
+     * Set the value of isDeleted
+     *
+     * @return  self
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
     //crypter le mot de passe
     public static function Crypter($mdpClair)
     {
@@ -202,7 +221,8 @@ class utilisateurs
         $motDePasse = utilisateurs::Crypter($user->getMotDePasse());
         $email = $user->getEmail();
         $statut = 1;
-        $req = MonPdo::getInstance()->prepare("INSERT INTO utilisateurs(nom,prenom,noTel,pseudo,motDePasse,email,statut) VALUES (:Nom,:Prenom,:NoTel,:Pseudo,:MotDePasse,:Email,:Statut)");
+        $isDeleted = 0;
+        $req = MonPdo::getInstance()->prepare("INSERT INTO utilisateurs(nom,prenom,noTel,pseudo,motDePasse,email,statut,isDeleted) VALUES (:Nom,:Prenom,:NoTel,:Pseudo,:MotDePasse,:Email,:Statut,:IsDeleted)");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $req->bindParam(':Nom', $nom);
         $req->bindParam(':Prenom', $prenom);
@@ -211,6 +231,7 @@ class utilisateurs
         $req->bindParam(':MotDePasse', $motDePasse);
         $req->bindParam(':Email', $email);
         $req->bindParam(':Statut', $statut);
+        $req->bindParam(':IsDeleted', $isDeleted);
         $req->execute();
     }
     public static function Update(utilisateurs $user)
@@ -243,12 +264,13 @@ class utilisateurs
         return false;
     }
     //Affichage de tous les utilisateurs
-    public static function getAllUser(){
-        $res=MonPdo::getInstance()->prepare("SELECT * FROM utilisateurs ORDER BY statut DESC");
-        $res->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'utilisateurs');
+    public static function getAllUser()
+    {
+        $res = MonPdo::getInstance()->prepare("SELECT * FROM utilisateurs WHERE isDeleted = 0 ORDER BY statut DESC");
+        $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $res->execute();
 
-        $result=$res->fetchAll();
+        $result = $res->fetchAll();
         echo "<div class='table-responsive'>";
         echo "<table class='table table-info table-responsive' >";
         echo "<thead>";
@@ -261,19 +283,19 @@ class utilisateurs
         echo "</tr>";
         foreach ($result as $value) {
             echo "<tr>";
-            echo "<td>".$value->getEmail()."</td>";
-            echo "<td>".$value->getPseudo()."</td>";
-            echo "<td>".$value->getNoTel()."</td>";
+            echo "<td>" . $value->getEmail() . "</td>";
+            echo "<td>" . $value->getPseudo() . "</td>";
+            echo "<td>" . $value->getNoTel() . "</td>";
             if ($value->getStatut() == 1) {
                 echo "<td>🙍‍♂️ enseigants</td>";
-            }else if($value->getStatut() == 2){
-                echo"<td>⭐ admin</td>";
+            } else if ($value->getStatut() == 2) {
+                echo "<td>⭐ admin</td>";
             }
-            echo "<td style='text-align: center;'><a href='index.php?uc=admin&action=delete&idUtilisateur=".$value->getIdUtilisateur()."' style='border: 1px solid black;font-size: 100%;' class='btn btn-outline-danger''>Supprimer</a></td>";
+            echo "<td style='text-align: center;'><a href='index.php?uc=admin&action=delete&idUtilisateur=" . $value->getIdUtilisateur() . "' style='border: 1px solid black;font-size: 100%;' class='btn btn-outline-danger''>Supprimer</a></td>";
             echo "</tr>";
         }
         echo "</thead>";
         echo "</table>";
-        echo"</div>";
+        echo "</div>";
     }
 }

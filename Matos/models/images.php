@@ -99,4 +99,13 @@ class images
         $sql->bindParam(':id',$idMateriel);
         $sql->execute();//executer la requette
     }
+    public static function getImageById($idMateriel){
+        $res=MonPdo::getInstance()->prepare('SELECT nomImage FROM images as i, materiels as m WHERE i.idMateriel = m.idMateriel AND m.idMateriel = :id');
+        $res->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'images');
+        $res->bindParam(':id', $idMateriel);
+        $res->execute();
+        $result=$res->fetch();
+
+        return $result;
+    }
 }

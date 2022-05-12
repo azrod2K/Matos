@@ -71,4 +71,11 @@ switch ($action) {
             header("Location: index.php?uc=materiel&action=ajout");
         }
         break;
+
+        case 'info':
+            $idMateriel = filter_input(INPUT_GET,'idMateriel');
+            $materiel = materiels::getMaterielById($idMateriel);
+            $image = images::getImageById($idMateriel);
+            include "vues/materiel.php";
+        break;
 }

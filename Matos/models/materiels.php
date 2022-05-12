@@ -152,7 +152,7 @@ class materiels
     //fonction qui permet de selection tout le matériel disponible
     public static function GetAllMateriel()
     {
-        $req = MonPdo::getInstance()->prepare("SELECT marque,description,nomImage FROM materiels,images WHERE images.idMateriel = materiels.idMateriel AND actif = 1 AND isDelete = 1");
+        $req = MonPdo::getInstance()->prepare("SELECT m.idMateriel,marque,description,nomImage FROM materiels as m ,images as i WHERE i.idMateriel = m.idMateriel AND actif = 1 AND isDelete = 1");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $req->execute();
         $returnSQL = $req->fetchAll();
@@ -164,11 +164,11 @@ class materiels
                 foreach ($returnSQL as $materiel) {
                 ?>
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="assets/img/materiel/<?=$materiel->nomImage?>" alt="Card image cap">
+                        <img class="card-img-top" src="assets/img/materiel/<?= $materiel->nomImage ?>" alt="Card image cap">
                         <div class="card-body">
                             <h5><?= $materiel->getMarque() ?></h5>
                             <p class="card-text"><?= $materiel->getDescription() ?></p>
-                            <a class="btn btn-primary">Louer</a>
+                            <a class="btn btn-primary" href="index.php?uc=materiel&action=info&idMateriel=<?= $materiel->getIdMateriel() ?>">plus info</a>
                         </div>
                     </div>
                 <?php
@@ -176,7 +176,7 @@ class materiels
                 ?>
             </div>
         </div>
-<?php
+    <?php
     }
 
     //fonction qui permet d'ajouter du matériel
@@ -230,13 +230,44 @@ class materiels
         return $returnSQL;
     }
 
-    public static function getMaterielById($idMateriel){
-        $res=MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels,images WHERE images.idMateriel = materiels.idMateriel AND idMateriel = :id');
-        $res->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,'materiels');
-        $res->bindParam(':id',$idMateriel);
+    public static function getMaterielById($idMateriel)
+    {
+        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE i.idMateriel = m.idMateriel AND m.idMateriel = :id');
+        $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
+        $res->bindParam(':id', $idMateriel);
         $res->execute();
-        $result=$res->fetch();
+        $result = $res->fetch();
 
         return $result;
+    }
+    public static function getMaterielByCategorie($selected)
+    {
+        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie');
+        $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
+        $res->bindParam(':categorie', $selected);
+        $res->execute();
+        $result = $res->fetch();
+
+    ?>
+
+        <div class="container">
+            <div class="row" style="flex-wrap: wrap;  justify-content: center;">
+                <?php
+                foreach ($result as $materiel) {
+                ?>
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="assets/img/materiel/<?= $materiel->nomImage ?>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5><?= $materiel->getMarque() ?></h5>
+                            <p class="card-text"><?= $materiel->getDescription() ?></p>
+                            <a class="btn btn-primary" href="index.php?uc=materiel&action=info&idMateriel=<?= $materiel->getIdMateriel() ?>">plus info</a>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+<?php
     }
 }
