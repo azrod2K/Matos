@@ -249,15 +249,15 @@ class utilisateurs
         $sql->execute();
     }
 
-    public static function IsEmailExisting($email)
+    public static function IsEmailExisting($email, $pseudo)
     {
-        $req = MonPdo::getInstance()->prepare("SELECT idUtilisateur, email FROM utilisateurs");
+        $req = MonPdo::getInstance()->prepare("SELECT idUtilisateur, email,pseudo FROM utilisateurs");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'utilisateurs');
         $req->execute();
         $result = $req->fetchAll();
 
         foreach ($result as $r) {
-            if ($r->getEmail() == $email) {
+            if ($r->getEmail() == $email || $r->getPseudo() == $pseudo) {
                 return true;
             }
         }

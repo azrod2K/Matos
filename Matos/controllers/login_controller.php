@@ -68,8 +68,8 @@ switch ($action) {
         $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING);
 
         //si les champs ne sont pas vides
-        if ($firstName != "" && $lastName != "" && $email != "" && $noTel != "" && $password != "") {
-            if (utilisateurs::IsEmailExisting($email) == false) {
+        if ($firstName != "" && $lastName != "" && $email != "" && $pseudo != "" && $noTel != "" && $password != "") {
+            if (utilisateurs::IsEmailExisting($email,$pseudo) == false) {
                 $user = new utilisateurs();
                 $user->setNom($lastName)
                     ->setPrenom($firstName)
@@ -86,7 +86,7 @@ switch ($action) {
             } else {
                 $_SESSION['alertMessage'] = [
                     "type" => "danger",
-                    "message" => "Cette email existe déjà"
+                    "message" => "l'email ou le pseudo existe déjà"
                 ];
                 header("Location: index.php?uc=login&action=showRegister");
             }

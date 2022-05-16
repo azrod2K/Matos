@@ -242,11 +242,11 @@ class materiels
     }
     public static function getMaterielByCategorie($selected)
     {
-        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie');
+        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie and m.idMateriel = i.idMateriel');
         $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $res->bindParam(':categorie', $selected);
         $res->execute();
-        $result = $res->fetch();
+        $result = $res->fetchAll();
 
     ?>
 
