@@ -71,7 +71,11 @@ switch ($action) {
             header("Location: index.php?uc=materiel&action=ajout");
         }
         break;
-
+        case 'delete':
+            $idMateriel=filter_input(INPUT_GET,'idMateriel');
+            materiels::SetDelete($idMateriel);
+            header("Location: index.php?uc=accueil&action=show");
+        break;
         case 'info':
             $idMateriel = filter_input(INPUT_GET,'idMateriel');
             $materiel = materiels::getMaterielById($idMateriel);

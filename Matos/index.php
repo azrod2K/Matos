@@ -43,6 +43,8 @@ switch ($uc) {
         include "controllers/admin_controller.php";
         break;
     case 'calendriers';
+    $idMateriel = filter_input(INPUT_GET,'idMateriel');
+    //$materiel = materiels::getMaterielById($idMateriel);
     require_once("function/calendrier.php");
     include "vues/calendar.php";
     break;

@@ -4,5 +4,12 @@
         <h1><?= $materiel->getMarque() ?></h1>
     </div>
     <h3><?= $materiel->getDescription() ?></h3>
-    <a class="btn btn-primary" href="index.php?uc=calendriers">louer</a>
+    <a class="btn btn-primary" href="index.php?uc=calendriers&idMateriel=<?= $materiel->getIdMateriel()?>">louer</a>
+    <?php 
+    if ($_SESSION['userConnected']['statut'] == 2) {
+    ?>
+    <a class="btn btn-danger" href="index.php?uc=materiel&action=delete&idMateriel=<?= $materiel->getIdMateriel()?>">supprimer</a>
+    <?php
+    }   
+    ?>
 </div>

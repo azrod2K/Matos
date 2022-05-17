@@ -149,6 +149,7 @@ class materiels
         return $this;
     }
 
+
     //fonction qui permet de selection tout le matériel disponible
     public static function GetAllMateriel()
     {
@@ -203,21 +204,19 @@ class materiels
     }
 
     //fonction qui delete le matériel(en invisible pour les utilisateurs)
-    public static function SetDelete($idMateriel, $action)
+    public static function SetDelete($idMateriel)
     {
-        $req = MonPdo::getInstance()->prepare('UPDATE materiels SET isDelete = :deleted WHERE idMateriel = :IdMateriel');
+        $req = MonPdo::getInstance()->prepare('UPDATE materiels SET isDelete = 0 WHERE idMateriel = :IdMateriel');
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
-        $req->bindParam(':deleted', $action); // 0 = visible / 1 = pas visible
         $req->bindParam(':IdMateriel', $idMateriel);
         $req->execute();
     }
 
     //fonction qui permet mettre disponible ou pas 
-    public static function setAvailability($idMateriel, $action)
+    public static function setAvailability($idMateriel)
     {
-        $req = MonPdo::getInstance()->prepare('UPDATE materiels SET actif = :Actif WHERE idMateriel = :IdMateriel');
+        $req = MonPdo::getInstance()->prepare('UPDATE materiels SET actif = 0 WHERE idMateriel = :IdMateriel');
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
-        $req->bindParam(':Actif', $action); //0 = disponible / 1 = pas disponible
         $req->bindParam(':IdMateriel', $idMateriel);
         $req->execute();
     }
@@ -232,7 +231,7 @@ class materiels
 
     public static function getMaterielById($idMateriel)
     {
-        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE i.idMateriel = m.idMateriel AND m.idMateriel = :id');
+        $res = MonPdo::getInstance()->prepare('SELECT m.idMateriel, marque,description,nomImage FROM materiels as m, images as i WHERE i.idMateriel = m.idMateriel AND m.idMateriel = :id');
         $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $res->bindParam(':id', $idMateriel);
         $res->execute();
@@ -242,7 +241,7 @@ class materiels
     }
     public static function getMaterielByCategorie($selected)
     {
-        $res = MonPdo::getInstance()->prepare('SELECT marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie and m.idMateriel = i.idMateriel');
+        $res = MonPdo::getInstance()->prepare('SELECT m.idMateriel,marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie and m.idMateriel = i.idMateriel');
         $res->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
         $res->bindParam(':categorie', $selected);
         $res->execute();
