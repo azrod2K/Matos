@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 /**
 *	Classe d'acces aux donnees Utilise les services de la classe PDO

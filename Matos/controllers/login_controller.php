@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 $action = filter_input(INPUT_GET, 'action');
 switch ($action) {
@@ -69,7 +74,7 @@ switch ($action) {
 
         //si les champs ne sont pas vides
         if ($firstName != "" && $lastName != "" && $email != "" && $pseudo != "" && $noTel != "" && $password != "") {
-            if (utilisateurs::IsEmailExisting($email,$pseudo) == false) {
+            if (utilisateurs::IsEmailExisting($email, $pseudo) == false) {
                 $user = new utilisateurs();
                 $user->setNom($lastName)
                     ->setPrenom($firstName)
@@ -114,21 +119,23 @@ switch ($action) {
         $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING);
         $noTel = filter_input(INPUT_POST, 'notel', FILTER_SANITIZE_NUMBER_INT);
         $password = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
-        if ($password != "") {
-            $user = new utilisateurs();
-            $user->setPseudo($pseudo)
-                ->setNoTel($noTel)
-                ->setMotDePasse($password)
-                ->setIdUtilisateur($_SESSION['userConnected']['idUtilisateur']);
-            utilisateurs::Update($user);
-        } else {
+        $sbm = filter_input(INPUT_POST, 'update');
+        if ($password == "") {
             $user = new utilisateurs();
             $user->setPseudo($pseudo)
                 ->setNoTel($noTel)
                 ->setMotDePasse($_SESSION['userConnected']['motDePasse'])
                 ->setIdUtilisateur($_SESSION['userConnected']['idUtilisateur']);
             utilisateurs::Update($user);
-        }
+            header("Location: index.php?uc=login&action=showProfil");
+        }else if ($password != "") {
+         $user = new utilisateurs();
+            $user->setPseudo($pseudo)
+                ->setNoTel($noTel)
+                ->setMotDePasse($password)
+                ->setIdUtilisateur($_SESSION['userConnected']['idUtilisateur']);
+            utilisateurs::Update($user);
+        } 
         break;
 
     default:

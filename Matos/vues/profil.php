@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos     -->
+
 <div class="container bootstrap snippets bootdey">
     <h1 class="text-primary">Editer le Profil</h1>
       <hr>
@@ -34,7 +39,7 @@
           <br>
           <div class="form-group">
             <div class="col-lg-8">
-              <input class="btn btn-success btn-block btn-lg" type="submit" value="update">
+              <input class="btn btn-success btn-block btn-lg" type="submit" name="update" value="update">
             </div>
           </div>
           </form>

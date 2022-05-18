@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos     -->
+
 <div class="container">
     <div class="row">
         <img src="assets/img/materiel/<?= $image->getNomImage() ?>" style="width: 50%">

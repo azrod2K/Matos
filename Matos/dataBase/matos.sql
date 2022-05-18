@@ -119,8 +119,9 @@ CREATE TABLE `utilisateurs` (
   `noTel` varchar(20) NOT NULL,
   `pseudo` varchar(50) NOT NULL,
   `motDePasse` varchar(32) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `statut` tinyint(1) NOT NULL DEFAULT 1,
+  `email` varchar(255) NOT NULL,
+  `statut` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = enseignant / 2 = admin',
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 = activer / 1 = désactiver',
   PRIMARY KEY (`idUtilisateur`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -131,7 +132,7 @@ CREATE TABLE `utilisateurs` (
 
 LOCK TABLES `utilisateurs` WRITE;
 /*!40000 ALTER TABLE `utilisateurs` DISABLE KEYS */;
-INSERT INTO `utilisateurs` VALUES (6,'Machado','David ','0766154106','azrod2K','feafe03d42c0e3c6da6e9f578867aac8','david.mchdb@eduge.ch',1),(7,'test','test','798561535','tesst','0ce3266d4eb71ad50f7a90aee6d21dcd','test@test.com',1),(8,'admin','admin','0777777777','admin','dddcdaa8264e6d96baadd43f324fbd83','admin@admin.ch',2);
+INSERT INTO `utilisateurs` VALUES (6,'Machado','David ','0766154106','azrod2K','feafe03d42c0e3c6da6e9f578867aac8','david.mchdb@eduge.ch',1,0),(7,'test','test','798561535','tesst','0ce3266d4eb71ad50f7a90aee6d21dcd','test@test.com',1,0),(8,'admin','admin','0777777777','admin','dddcdaa8264e6d96baadd43f324fbd83','admin@admin.ch',2,0);
 /*!40000 ALTER TABLE `utilisateurs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -144,4 +145,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-11 16:30:42
+-- Dump completed on 2022-05-12 16:19:28

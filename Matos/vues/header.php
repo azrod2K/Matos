@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos     -->
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -26,6 +31,10 @@
           <li class="nav-item">
             <a class="nav-link" href="index.php?uc=categorie&action=show">Catégorie</a>
           </li>
+          <form action="index.php?uc=search&action=show" method="POST">
+            <input class="nav-link" type="search" name="word" placeholder="marque">
+            <input class="nav-link" type="submit" name="validate">
+          </form>
           <?php
           if ($_SESSION['userConnected']['statut'] == 2) {
           ?>

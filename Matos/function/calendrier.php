@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 class Calendar
 {
@@ -119,7 +124,7 @@ class Calendar
         }
 
         //récupérer les dates non disponibles
-        $state = "<a style='color: #08FF00;' href='index.php?uc=calendriers&date=$this->currentDate&idMateriel=" . $_GET['idMateriel'] . "'>" . $cellContent . "</a>";
+        $state = "<a style='color: #08FF00;' href='index.php?uc=pret&action=validate&date=$this->currentDate&idMateriel=" . $_GET['idMateriel'] . "'>" . $cellContent . "</a>";
         $lockedDates = prets::getUnavailableDatesByPlate($_GET['idMateriel']);
         foreach ($lockedDates as $lockedDate) {
             if (date('Y-m-d', strtotime($lockedDate->getDateDebut())) == $this->currentDate) {

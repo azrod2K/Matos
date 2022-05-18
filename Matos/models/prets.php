@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 class prets
 {
@@ -149,21 +154,46 @@ class prets
 
         return $this;
     }
-    public static function setValidate($idPret){
+    public static function setValidate($idPret)
+    {
         $req = MonPdo::getInstance()->prepare('UPDATE prets SET validation = 1 WHERE idPret = :IdPret');
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'prets');
         $req->bindParam(':IdPret', $idPret);
         $req->execute();
     }
+    //récup des date debut et fin pour vérifier la disponibilité dans le calendriers
     public static function getUnavailableDatesByPlate($idMateriel)
     {
         $req = MonPdo::getInstance()->prepare("SELECT dateDebut,dateFin FROM prets WHERE idMateriel = :IDMateriel");
         $req->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'prets');
-        $req->bindParam(':IDMateriel',$idMateriel);
+        $req->bindParam(':IDMateriel', $idMateriel);
         $req->execute();
         $retourSQL = $req->fetchAll();
         return $retourSQL;
     }
+    //créer le prêt
+    public static function addPret(prets $pret)
+    {
+        echo "<pre>";
+        var_dump($pret);
+        echo "</pre>";
+        $dateReservation = $pret->getDateReservation();
+        $dateDebut = $pret->getDateDebut();
+        $dateFin = $pret->getDateFin();
+        $idUtilisateur = $pret->getIdUtilisateur();
+        $idMateriel = $pret->getIdMateriel();
+        $validation = 0;
+        $sql = MonPdo::getInstance()->prepare('INSERT INTO prets(dateReservation, dateDebut, dateFin, idUtilisateur, idMateriel, validation) VALUES(:DateReservation, :DateDebut, :DateFin, :IdUtilisateur, :IdMateriel, :Validation)');
+        $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'prets');
+        $sql->bindParam(':DateReservation', $dateReservation);
+        $sql->bindParam(':DateDebut', $dateDebut);
+        $sql->bindParam(':DateFin', $dateFin);
+        $sql->bindParam(':IdUtilisateur', $idUtilisateur);
+        $sql->bindParam(':IdMateriel', $idMateriel);
+        $sql->bindParam(':Validation', $validation);
+        $sql->execute();
+    }
+
     //affichage de tous les prêts
     public static function getAllLoan()
     {
@@ -193,10 +223,11 @@ class prets
             echo "<td>" . $value->marque . "</td>";
             if ($value->getValidation() == 1) {
                 echo "<td>valider ✔</td>";
+                echo "<td></td>";
             } else if ($value->getValidation() == 0) {
                 echo "<td>en attente ⌛</td>";
+                echo "<td style='text-align: center;'><a href='index.php?uc=admin&action=accept&idPret=" . $value->getIdPret() . "' style='border: 1px solid black;font-size: 100%;' class='btn btn-outline-success''>Valider</a></td>";
             }
-            echo "<td style='text-align: center;'><a href='index.php?uc=admin&action=accept&idPret=" . $value->getIdPret() . "' style='border: 1px solid black;font-size: 100%;' class='btn btn-outline-success''>Valider</a></td>";
             echo "</tr>";
         }
         echo "</thead>";

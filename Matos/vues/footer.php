@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos     -->
+
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
     <!-- Copyright -->

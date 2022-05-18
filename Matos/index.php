@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos     -->
+
 <?php
 session_start();
 if (!isset($_SESSION['userConnected'])) {
@@ -43,11 +48,16 @@ switch ($uc) {
         include "controllers/admin_controller.php";
         break;
     case 'calendriers';
-    $idMateriel = filter_input(INPUT_GET,'idMateriel');
-    //$materiel = materiels::getMaterielById($idMateriel);
-    require_once("function/calendrier.php");
-    include "vues/calendar.php";
-    break;
+        $idMateriel = filter_input(INPUT_GET, 'idMateriel');
+        require_once("function/calendrier.php");
+        include "vues/calendar.php";
+        break;
+    case 'search':
+        include "controllers/search_controller.php";
+        break;
+    case 'pret':
+        include "controllers/pret_controller.php";
+        break;
 }
 include "vues/footer.php";
 error_reporting(E_ALL);

@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 $action = filter_input(INPUT_GET, 'action');
 switch ($action) {
@@ -7,7 +12,13 @@ switch ($action) {
         materiels::GetAllMateriel();
         break;
     case 'ajout':
-        include "vues/ajoutMateriel.php";
+        if ($_SESSION['userConnected']['idutilisateur']==2) {
+            include "vues/ajoutMateriel.php";   
+        }
+        else {
+            header("Location: index.php?uc=accueil&action=show");
+        }
+ 
         break;
     case 'validateAdd':
 

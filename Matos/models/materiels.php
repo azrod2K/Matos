@@ -1,3 +1,8 @@
+<!-- 
+Auteur: David Machado
+Date: 18.05.2022
+Projet: Matos    
+-!>
 <?php
 class materiels
 {
@@ -239,6 +244,37 @@ class materiels
 
         return $result;
     }
+    public static function getMaterielBySearch($word)
+    {
+        $sql = MonPdo::getInstance()->prepare("SELECT m.idMateriel,marque,description,nomImage FROM materiels as m, images as i WHERE m.idMateriel = i.idMateriel and m.marque LIKE :marque");
+        $sql->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'materiels');
+        $sql->bindParam(':marque', $word);
+        $sql->execute();
+
+        $returnSQL = $sql->fetchAll();
+    ?>
+
+        <div class="container">
+            <div class="row" style="flex-wrap: wrap;  justify-content: center;">
+                <?php
+                foreach ($returnSQL as $materiel) {
+                ?>
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="assets/img/materiel/<?= $materiel->nomImage ?>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5><?= $materiel->getMarque() ?></h5>
+                            <p class="card-text"><?= $materiel->getDescription() ?></p>
+                            <a class="btn btn-primary" href="index.php?uc=materiel&action=info&idMateriel=<?= $materiel->getIdMateriel() ?>">plus info</a>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+    <?php
+    }
+
     public static function getMaterielByCategorie($selected)
     {
         $res = MonPdo::getInstance()->prepare('SELECT m.idMateriel,marque,description,nomImage FROM materiels as m, images as i WHERE m.categorie = :categorie and m.idMateriel = i.idMateriel');
